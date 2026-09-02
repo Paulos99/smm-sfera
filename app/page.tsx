@@ -1,287 +1,46 @@
 'use client';
 
-import { type CSSProperties, FormEvent, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, FormEvent, useEffect, useState } from 'react';
+import { flushSync } from 'react-dom';
 import Link from 'next/link';
 import { Award, Bot, CalendarClock, ChartNoAxesColumnDecreasing, ChartNoAxesCombined, Clapperboard, GraduationCap, Handshake, Megaphone, Route, Share2, ShieldAlert, ShoppingCart, Smartphone, Sparkles, Target, TrendingUp, UsersRound, Video, type LucideIcon } from 'lucide-react';
 import Lenis from 'lenis';
+import ArsenalLogoRain from '@/components/ArsenalLogoRain';
 import { asset } from '@/lib/asset';
+import {
+  agents,
+  arsenalMissions,
+  clientLogos,
+  missions,
+  operationMarkers,
+  operationSteps,
+  painTargets,
+  radarTargets,
+  signals,
+  whyItems,
+  type Agent,
+} from '@/data/home';
 
-const missions = [
-  { code: 'MSN—041', sector: 'FASHION / RETAIL', title: 'Вывели новый бренд из тени', text: 'С нуля собрали позиционирование, контент-систему и трафик до первой тысячи целевых заявок.', stat: '+270%', label: 'рост охватов', tone: 'red', objective: 'Запустить новый fashion-бренд и занять заметное место в ленте целевой аудитории.', actions: ['Стратегия запуска', 'Визуальная система', 'Таргет и посевы'], result: 'Стабильный поток заявок и узнаваемый образ бренда за первые 90 дней.' },
-  { code: 'MSN—087', sector: 'BEAUTY / E-COM', title: 'Захватили внимание аудитории', text: 'Перезапустили визуальный язык, рубрикатор и influence-направление для масштабирования продаж.', stat: '+185%', label: 'к вовлечённости', tone: 'blue', objective: 'Обновить коммуникацию beauty-проекта и связать контент с продажами.', actions: ['Контент-платформа', 'Influence-маркетинг', 'E-com аналитика'], result: 'Рост вовлечённости, сохранений и переходов в карточки товаров.' },
-  { code: 'MSN—112', sector: 'B2B / TECH', title: 'Превратили сложное в интересное', text: 'Собрали экспертную медиа-машину: от стратегии Telegram до лидогенерации и аналитики.', stat: '×3,2', label: 'рост лидов', tone: 'yellow', objective: 'Объяснить сложный технологичный продукт и увеличить число квалифицированных обращений.', actions: ['Экспертный Telegram', 'Видео-разборы', 'Лидогенерация'], result: 'Контент стал самостоятельным каналом привлечения B2B-лидов.' },
-  { code: 'MSN—126', sector: 'FOOD / HORECA', title: 'Собрали очередь до открытия', text: 'Провели локальную разведку, прогрели район и превратили запуск новой точки в городское событие.', stat: '4,8K', label: 'гостей за месяц', tone: 'blue', objective: 'Запустить новую точку без зависимости от наружной рекламы.', actions: ['Локальный контент', 'UGC-механика', 'Гео-таргет'], result: 'План первого месяца был выполнен уже на девятнадцатый день.' },
-  { code: 'MSN—153', sector: 'REAL ESTATE', title: 'Сделали метры желанными', text: 'Перевели язык застройщика с квадратных метров на сценарии жизни и построили воронку из соцсетей.', stat: '+64%', label: 'целевых лидов', tone: 'yellow', objective: 'Увеличить долю качественных обращений на старте нового жилого комплекса.', actions: ['Коммуникационная идея', '3D и motion', 'Performance-воронка'], result: 'Снижение стоимости квалифицированного обращения при росте объёма.' },
-  { code: 'MSN—204', sector: 'EDTECH / HR', title: 'Завербовали лучших', text: 'Создали карьерное медиа, которое показало команду изнутри и ускорило набор редких специалистов.', stat: '×2,4', label: 'откликов', tone: 'red', objective: 'Повысить привлекательность работодателя среди senior-специалистов.', actions: ['HR-бренд платформа', 'Герои команды', 'Контент-рекрутинг'], result: 'Больше релевантных откликов и короче цикл найма.' },
-];
+const signalIcons: LucideIcon[] = [Smartphone, CalendarClock, Route, ShieldAlert, UsersRound, ChartNoAxesColumnDecreasing];
+const arsenalIcons: LucideIcon[] = [Share2, Clapperboard, Megaphone, ShoppingCart, Target, GraduationCap, Bot];
+const whyIcons: LucideIcon[] = [Award, ChartNoAxesCombined, Video, Sparkles, TrendingUp, Handshake];
 
-const signals:Array<[string,string]> = [
-  ['01', 'Социальные сети не приводят клиентов'],
-  ['02', 'Контент выходит нерегулярно'],
-  ['03', 'Нет единой стратегии продвижения'],
-  ['04', 'Бренд выглядит слабее конкурентов'],
-  ['05', 'Команде не хватает ресурсов на маркетинг'],
-  ['06', 'Нет понятной аналитики и контроля'],
-];
-
-const arsenalMissions:Array<[string,string,string[]]> = [
-  ['01', 'SMM', ['Ведение социальных сетей', 'Контент-план и публикации', 'Аналитика и развитие']],
-  ['02', 'Content production', ['Фото- и видеоконтент', 'Монтаж коротких роликов', 'Motion и AI-контент']],
-  ['03', 'Продвижение', ['Блогеры и UGC', 'Посевы в сообществах', 'Таргет и коллаборации']],
-  ['04', 'Marketplace', ['Карточки товаров', 'Rich-контент', 'Фото и видео']],
-  ['05', 'Стратегия', ['Маркетинговая стратегия', 'Исследования и аналитика', 'Консалтинг']],
-  ['06', 'Обучение', ['Корпоративные программы', 'AI-инструменты', 'SMM для команды']],
-  ['07', 'Digital', ['Сайты и спецпроекты', 'CRM и автоматизация', 'Чат-боты и воронки']],
-];
-
-const whyItems:Array<[string,string,string,string]> = [
-  ['01', '10+', 'лет маркетингового опыта', 'За плечами команды — сотни запусков и системная работа с бизнесом.'],
-  ['02', 'Данные', 'вместо догадок', 'Каждое решение проверяем цифрами, гипотезами и понятными KPI.'],
-  ['03', 'In-house', 'собственный продакшн', 'Создаём стратегию, дизайн, тексты, видео и motion внутри одной команды.'],
-  ['04', 'AI', 'с пользой для результата', 'Внедряем технологии там, где они ускоряют работу и усиливают идею.'],
-  ['05', 'ROI', 'фокус на бизнесе', 'Смотрим не только на охваты, а на заявки, продажи и долгосрочный рост.'],
-  ['06', '24/7', 'сопровождение миссии', 'Остаёмся рядом от первой разведки до отчёта и следующего шага.'],
-];
-
-const signalIcons:LucideIcon[] = [Smartphone, CalendarClock, Route, ShieldAlert, UsersRound, ChartNoAxesColumnDecreasing];
-const arsenalIcons:LucideIcon[] = [Share2, Clapperboard, Megaphone, ShoppingCart, Target, GraduationCap, Bot];
-const whyIcons:LucideIcon[] = [Award, ChartNoAxesCombined, Video, Sparkles, TrendingUp, Handshake];
-const whyCardPositions = [
-  { x:2.5, y:0 }, { x:8.5, y:0 }, { x:2, y:1 },
-  { x:6, y:1 }, { x:10, y:1 }, { x:6, y:2 },
-];
-
-const clientLogos = Array.from({ length: 13 }, (_, index) => asset(`/assets/clients/client-${String(index + 1).padStart(2, '0')}.png`));
-
-const arsenalSocialLogos = [
-  asset('/assets/social-yandex-business.png'),
-  asset('/assets/social-ok.png'),
-  asset('/assets/social-telegram.png'),
-  asset('/assets/social-max.png'),
-  asset('/assets/social-shorts.png'),
-  asset('/assets/social-wibes.png'),
-  asset('/assets/social-vk.png'),
-];
-
-const agents = [
-  { id: 'A—001', role: 'Основатель агентства', name: 'Радмила', image: asset('/assets/team/radmila.png'), description: 'Командир штаба СММ СФЕРА. 20+ лет в маркетинге, множество бизнес-стартапов и стратегическое чутьё, которое превращает идеи в работающие компании.' },
-  { id: 'A—014', role: 'Digital-проекты и арт-дирекшн', name: 'Дмитрий', image: asset('/assets/team/dmitry.png'), description: 'Руководит крупными digital-миссиями и визуальным направлением штаба. 5+ лет в дизайне; держит под контролем проект от первого макета до запуска.' },
-  { id: 'A—007', role: 'Видеорежиссура и трафик', name: 'Анна', image: asset('/assets/team/anna.png'), description: 'Режиссирует съёмки, монтирует истории и наводит таргет точно в аудиторию. 5+ лет в маркетинге, основатель внутренней миссии «Выгодный Китай».' },
-  { id: 'A—010', role: 'Управляющая агентством', name: 'Алина', image: asset('/assets/team/alina.png'), description: 'Координирует операции, аналитику, отчётность, стратегии и воронки. 10+ лет опыта, автор образовательных проектов «СММ ШКОЛА» и «НЕЙРОСФЕРА».' },
-  { id: 'A—021', role: 'Influence и продвижение', name: 'Александра', image: asset('/assets/team/alexandra.png'), description: 'Разворачивает рекламные операции в соцсетях: блогеры, посевы, UGC и коллаборации. Её партнёрская база помогает собрать эффективную воронку для любого бизнеса.' },
-  { id: 'A—028', role: 'Полевой фото- и видеоагент', name: 'Диана', image: asset('/assets/team/diana.png'), description: 'Ловит живые кадры прямо в поле, превращает события и процессы бизнеса в убедительные визуальные истории. Быстро собирает контент под любой формат и площадку.' },
-  { id: 'A—034', role: 'Мобильный продакшн', name: 'Варвара', image: asset('/assets/team/varvara.png'), description: 'Универсальный агент съёмочной группы: фото, вертикальное видео, backstage и оперативный монтаж. Находит сильный ракурс даже в самых сложных вводных.' },
-  { id: 'A—040', role: 'Яндекс.Бизнес и реклама', name: 'Татьяна', image: asset('/assets/team/tatiana.png'), description: 'Навигатор по рекламной экосистеме Яндекса с опытом 20+ лет. Усиливает карточки бизнеса, локальное присутствие и кампании так, чтобы бренд находили именно его клиенты.' },
-];
-
-const radarTargets = [
-  ['Кофейня', '18%', '21%'], ['Ритейл', '67%', '17%'], ['IT-сервис', '78%', '58%'], ['Fashion', '23%', '71%'],
-  ['HoReCa', '47%', '31%'], ['Завод', '61%', '76%'], ['Недвижимость', '34%', '48%'], ['EdTech', '83%', '33%'],
-];
-
-const painTargets = [
-  { label: 'Нет заявок', left: '50%', top: '13%' },
-  { label: 'Реклама не окупается', left: '78%', top: '25%' },
-  { label: 'Бренд не замечают', left: '86%', top: '52%' },
-  { label: 'Контент не продаёт', left: '69%', top: '80%' },
-  { label: 'Охваты падают', left: '31%', top: '80%' },
-  { label: 'Нет стратегии', left: '14%', top: '52%' },
-  { label: 'Рост остановился', left: '22%', top: '25%' },
-];
-
-function ArsenalLogoRain() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const section = canvas?.closest('.arsenal-card') as HTMLElement | null;
-    const context = canvas?.getContext('2d');
-    if (!canvas || !section || !context) return;
-
-    type Body = { x:number; y:number; vx:number; vy:number; radius:number; angle:number; spin:number; image:HTMLImageElement };
-    type Obstacle = { left:number; top:number; right:number; bottom:number };
-    const images = arsenalSocialLogos.map((source) => {
-      const image = new Image();
-      image.src = source;
-      return image;
-    });
-    let bodies:Body[] = [];
-    let obstacles:Obstacle[] = [];
-    let width = 1;
-    let height = 1;
-    let ratio = 1;
-    let spawned = 0;
-    let spawnClock = 0;
-    let lastTime = performance.now();
-    let frame = 0;
-    let running = false;
-
-    const resize = () => {
-      const sectionRect = section.getBoundingClientRect();
-      width = Math.max(1, sectionRect.width);
-      height = Math.max(1, sectionRect.height);
-      ratio = Math.min(window.devicePixelRatio || 1, 1.25);
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      obstacles = Array.from(section.querySelectorAll<HTMLElement>('.arsenal-card')).map((card) => {
-        const rect = card.getBoundingClientRect();
-        return { left:rect.left - sectionRect.left, top:rect.top - sectionRect.top, right:rect.right - sectionRect.left, bottom:rect.bottom - sectionRect.top };
-      });
-      bodies = [];
-      spawned = 0;
-      spawnClock = 0;
-    };
-
-    const spawnBody = () => {
-      const radius = width < 380 ? 10 + Math.random() * 7 : 12 + Math.random() * 9;
-      bodies.push({
-        x:radius + Math.random() * Math.max(1, width - radius * 2),
-        y:-radius - Math.random() * 70,
-        vx:(Math.random() - .5) * 54,
-        vy:25 + Math.random() * 44,
-        radius,
-        angle:(Math.random() - .5) * .55,
-        spin:(Math.random() - .5) * 1.25,
-        image:images[spawned % images.length],
-      });
-      spawned += 1;
-    };
-
-    const collideWithObstacle = (body:Body, obstacle:Obstacle) => {
-      const closestX = Math.max(obstacle.left, Math.min(body.x, obstacle.right));
-      const closestY = Math.max(obstacle.top, Math.min(body.y, obstacle.bottom));
-      const deltaX = body.x - closestX;
-      const deltaY = body.y - closestY;
-      const distanceSquared = deltaX * deltaX + deltaY * deltaY;
-      if (distanceSquared >= body.radius * body.radius) return;
-      const distance = Math.sqrt(distanceSquared);
-      if (distance > .001) {
-        const overlap = body.radius - distance;
-        const normalX = deltaX / distance;
-        const normalY = deltaY / distance;
-        body.x += normalX * overlap;
-        body.y += normalY * overlap;
-        const velocityAlongNormal = body.vx * normalX + body.vy * normalY;
-        if (velocityAlongNormal < 0) {
-          body.vx -= 1.28 * velocityAlongNormal * normalX;
-          body.vy -= 1.28 * velocityAlongNormal * normalY;
-        }
-      } else {
-        body.y = obstacle.top - body.radius;
-        body.vy *= -.2;
-      }
-      body.vx *= .9;
-      body.spin *= .88;
-    };
-
-    const simulate = (delta:number) => {
-      const steps = 2;
-      const step = delta / steps;
-      for (let pass = 0; pass < steps; pass += 1) {
-        bodies.forEach((body) => {
-          body.vy += 620 * step;
-          body.x += body.vx * step;
-          body.y += body.vy * step;
-          body.angle += body.spin * step;
-          if (body.x - body.radius < 0) { body.x = body.radius; body.vx = Math.abs(body.vx) * .42; body.spin *= -.7; }
-          if (body.x + body.radius > width) { body.x = width - body.radius; body.vx = -Math.abs(body.vx) * .42; body.spin *= -.7; }
-          obstacles.forEach((obstacle) => collideWithObstacle(body, obstacle));
-          if (body.y + body.radius > height) {
-            body.y = height - body.radius;
-            body.vy = Math.abs(body.vy) > 28 ? -Math.abs(body.vy) * .18 : 0;
-            body.vx *= .86;
-            body.spin *= .8;
-          }
-        });
-
-        for (let first = 0; first < bodies.length; first += 1) {
-          for (let second = first + 1; second < bodies.length; second += 1) {
-            const a = bodies[first];
-            const b = bodies[second];
-            const deltaX = b.x - a.x;
-            const deltaY = b.y - a.y;
-            const minimum = a.radius + b.radius;
-            const distanceSquared = deltaX * deltaX + deltaY * deltaY;
-            if (distanceSquared <= .001 || distanceSquared >= minimum * minimum) continue;
-            const distance = Math.sqrt(distanceSquared);
-            const normalX = deltaX / distance;
-            const normalY = deltaY / distance;
-            const overlap = (minimum - distance) * .5;
-            a.x -= normalX * overlap;
-            a.y -= normalY * overlap;
-            b.x += normalX * overlap;
-            b.y += normalY * overlap;
-            const relativeVelocity = (b.vx - a.vx) * normalX + (b.vy - a.vy) * normalY;
-            if (relativeVelocity < 0) {
-              const impulse = -relativeVelocity * .56;
-              a.vx -= impulse * normalX;
-              a.vy -= impulse * normalY;
-              b.vx += impulse * normalX;
-              b.vy += impulse * normalY;
-            }
-          }
-        }
-      }
-    };
-
-    const draw = () => {
-      context.clearRect(0, 0, width, height);
-      bodies.forEach((body) => {
-        if (!body.image.complete) return;
-        context.save();
-        context.translate(body.x, body.y);
-        context.rotate(body.angle);
-        context.globalAlpha = .82;
-        context.shadowColor = 'rgba(0,0,0,.34)';
-        context.shadowBlur = 14;
-        context.shadowOffsetY = 7;
-        context.drawImage(body.image, -body.radius, -body.radius, body.radius * 2, body.radius * 2);
-        context.restore();
-      });
-    };
-
-    const tick = (time:number) => {
-      if (!running) return;
-      const delta = Math.min(.03, Math.max(.001, (time - lastTime) / 1000));
-      lastTime = time;
-      const targetCount = width < 380 ? 24 : 38;
-      spawnClock += delta;
-      while (spawnClock >= .14 && spawned < targetCount) {
-        spawnClock -= .14;
-        spawnBody();
-      }
-      simulate(delta);
-      draw();
-      frame = window.requestAnimationFrame(tick);
-    };
-
-    const start = () => {
-      if (running) return;
-      running = true;
-      lastTime = performance.now();
-      frame = window.requestAnimationFrame(tick);
-    };
-    const stop = () => {
-      running = false;
-      window.cancelAnimationFrame(frame);
-    };
-
-    const visibilityObserver = new IntersectionObserver(([entry]) => entry.isIntersecting ? start() : stop(), { threshold:.08 });
-    const resizeObserver = new ResizeObserver(resize);
-    resize();
-    visibilityObserver.observe(section);
-    resizeObserver.observe(section);
-    return () => {
-      stop();
-      visibilityObserver.disconnect();
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="arsenal-physics-canvas" aria-hidden="true" />;
+function AgentCard({ agent }: { agent: Agent }) {
+  return (
+    <article className="team-card">
+      <span className="agent-pin" aria-hidden="true" />
+      <div className="team-photo">
+        <img src={agent.image} alt={agent.name} />
+        <span>{agent.id}</span>
+        <i />
+      </div>
+      <div className="team-card-copy">
+        <small>{agent.role}</small>
+        <h3>{agent.name}</h3>
+        <p>{agent.description}</p>
+      </div>
+    </article>
+  );
 }
 
 export default function Home() {
@@ -291,26 +50,31 @@ export default function Home() {
   const [selectedMission, setSelectedMission] = useState<number | null>(null);
   const [teamExpanded, setTeamExpanded] = useState(false);
   const [activeSignals, setActiveSignals] = useState<number[]>([]);
-  const [radarActive, setRadarActive] = useState([0, 4]);
   const [painTarget, setPainTarget] = useState(0);
   const [shotTarget, setShotTarget] = useState<number | null>(null);
-  const [whyActive, setWhyActive] = useState<number | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = 'light';
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible'));
-    }, { threshold: .12 });
-    document.querySelectorAll('.reveal, .arsenal-section').forEach((node) => observer.observe(node));
-    const radarTimer = window.setInterval(() => {
-      const first = Math.floor(Math.random() * radarTargets.length);
-      let second = Math.floor(Math.random() * radarTargets.length);
-      if (second === first) second = (second + 3) % radarTargets.length;
-      setRadarActive([first, second]);
-    }, 1450);
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach((node) => observer.observe(node));
+    const onVisibility = () => document.documentElement.classList.toggle('is-page-hidden', document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const lenis = prefersReducedMotion.matches || !finePointer.matches ? null : new Lenis({
+      autoRaf: true,
+      lerp: 0.14,
+      wheelMultiplier: 0.88,
+      smoothWheel: true,
+      syncTouch: false,
+      anchors: { offset: -96 },
+    });
     return () => {
       observer.disconnect();
-      window.clearInterval(radarTimer);
+      document.removeEventListener('visibilitychange', onVisibility);
+      lenis?.destroy();
     };
   }, []);
 
@@ -327,32 +91,29 @@ export default function Home() {
   }, [selectedMission]);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     setShotTarget(null);
-    const fireTimer = window.setTimeout(() => setShotTarget(painTarget), 2850);
+    const fireTimer = window.setTimeout(() => setShotTarget(painTarget), 1800);
     const nextTargetTimer = window.setTimeout(() => {
       setShotTarget(null);
       setPainTarget((current) => (current + 1) % painTargets.length);
-    }, 4400);
+    }, 3200);
     return () => {
       window.clearTimeout(fireTimer);
       window.clearTimeout(nextTargetTimer);
     };
   }, [painTarget]);
 
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const finePointer = window.matchMedia('(pointer: fine)');
-    if (prefersReducedMotion.matches || !finePointer.matches) return;
-    const lenis = new Lenis({
-      autoRaf:true,
-      lerp:.115,
-      wheelMultiplier:.78,
-      smoothWheel:true,
-      syncTouch:false,
-      anchors:{ offset:-96 },
+  function toggleTeam() {
+    const apply = () => setTeamExpanded((value) => !value);
+    if (typeof document.startViewTransition !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      apply();
+      return;
+    }
+    document.startViewTransition(() => {
+      flushSync(apply);
     });
-    return () => lenis.destroy();
-  }, []);
+  }
 
   async function submitBrief(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -469,7 +230,7 @@ export default function Home() {
               <div className="intel-radar radar" aria-label="Радар бизнес-задач">
                 <div className="radar-sweep" />
                 <div className="radar-center" />
-                {radarTargets.map(([name, left, top], index) => <span className={`radar-target is-logo ${radarActive.includes(index) ? 'is-detected' : ''}`} style={{ left, top }} key={`${name}-${index}`}><img src={clientLogos[index % clientLogos.length]} alt="" /></span>)}
+                {radarTargets.map(([name, left, top], index) => <span className="radar-target is-logo is-detected" style={{ left, top, animationDelay: `${index * 0.42}s` }} key={`${name}-${index}`}><img src={clientLogos[index % clientLogos.length]} alt="" /></span>)}
               </div>
               <div className="intel-stats">
                 <small>Оперативная статистика / 2026</small>
@@ -478,7 +239,7 @@ export default function Home() {
               </div>
             </aside>
             <div className="case-bento">
-              {missions.map((mission, index) => <button className={`case-bento-card case-tone-${mission.tone} reveal`} type="button" onClick={() => setSelectedMission(index)} key={mission.code} style={{ transitionDelay: `${index * 60}ms` }}>
+              {missions.map((mission, index) => <button className={`case-bento-card case-tone-${mission.tone} reveal`} type="button" onClick={() => setSelectedMission(index)} key={mission.code}>
                 <div><span>{mission.code}</span><small>{mission.sector}</small></div>
                 <strong>{mission.title}</strong>
                 <p>{mission.text}</p>
@@ -491,12 +252,11 @@ export default function Home() {
       </section>
 
       <section className="section arsenal-section" id="services">
-        <ArsenalLogoRain />
         <div className="section-title reveal"><h2>Наш арсенал — <em className="shimmer-text">7 миссий</em><br />для роста бизнеса</h2><p>Можно выбрать отдельную задачу или собрать из миссий единый маршрут продвижения.</p></div>
         <div className="arsenal-bento">
           {arsenalMissions.map(([number, title, items], index) => {
             const ArsenalIcon = arsenalIcons[index];
-            return <article className={`arsenal-card reveal arsenal-card-${index + 1}`} key={number} style={{ transitionDelay: `${index * 55}ms` }}>
+            return <article className={`arsenal-card reveal arsenal-card-${index + 1}`} key={number}>
             {index === 0 && <ArsenalLogoRain />}
             <div><span>{number}</span><ArsenalIcon className="arsenal-card-icon" aria-hidden="true" /><i>МИССИЯ</i></div>
             <h3>{title}</h3>
@@ -512,37 +272,18 @@ export default function Home() {
         <div className="operation-track-scroll">
           <div className="operation-steps">
             <svg className="operation-flow" viewBox="0 0 1000 190" preserveAspectRatio="none" aria-hidden="true"><path className="operation-flow-base" d="M50 100 C120 24 180 24 250 70 S380 160 450 105 S600 12 700 75 S850 158 950 95" pathLength="1" /><path className="operation-flow-runner" d="M50 100 C120 24 180 24 250 70 S380 160 450 105 S600 12 700 75 S850 158 950 95" pathLength="1" /></svg>
-            <div className="operation-markers" aria-hidden="true">{[['5%','52.6%','01'],['25%','36.8%','02'],['45%','55.3%','03'],['70%','39.5%','04'],['95%','50%','05']].map(([left,top,label]) => <span className="operation-flow-marker" style={{ '--marker-left': left, '--marker-top': top } as CSSProperties} key={label}>{label}</span>)}</div>
-            {[['01','Разведка','Бриф, аудит и интервью. Находим настоящую задачу за симптомами.'],['02','План операции','Собираем стратегию, команду, KPI и медиаплан.'],['03','Выход в поле','Запускаем контент, трафик и работу с аудиторией.'],['04','Контроль','Еженедельно сверяемся с цифрами и усиливаем связки.'],['05','Рапорт','Фиксируем результат и план следующей миссии.']].map(([number,title,text],index)=><div className="operation-step reveal" key={number} style={{ transitionDelay:`${index*70}ms` }}><span className="operation-mobile-marker" aria-hidden="true">{number}</span><h3>{title}</h3><p>{text}</p></div>)}
+            <div className="operation-markers" aria-hidden="true">{operationMarkers.map(([left, top, label]) => <span className="operation-flow-marker" style={{ '--marker-left': left, '--marker-top': top } as CSSProperties} key={label}>{label}</span>)}</div>
+            {operationSteps.map(([number, title, text]) => <div className="operation-step reveal" key={number}><span className="operation-mobile-marker" aria-hidden="true">{number}</span><h3>{title}</h3><p>{text}</p></div>)}
           </div>
         </div>
       </section>
 
       <section className="section why-section" id="why">
         <div className="section-title reveal"><h2>Почему бизнес<br /><em className="shimmer-text">выбирает нас</em></h2><p>Мы подключаемся как партнёр: видим общую задачу, держим темп и отвечаем за результат всей операции.</p></div>
-        <div className={`why-bento ${whyActive !== null ? 'is-repelling' : ''}`}>
+        <div className="why-bento">
           {whyItems.map(([number, stat, label, text], index) => {
             const WhyIcon = whyIcons[index];
-            const activePosition = whyActive === null ? null : whyCardPositions[whyActive];
-            const position = whyCardPositions[index];
-            const directionX = activePosition ? Math.sign(position.x - activePosition.x) || (index < whyActive! ? -1 : 1) : 0;
-            const directionY = activePosition ? Math.sign(position.y - activePosition.y) || (index % 2 === 0 ? -1 : 1) : 0;
-            const distance = whyActive === null ? 0 : Math.abs(index - whyActive);
-            const isActive = whyActive === index;
-            const motionStyle = {
-              '--why-x': `${isActive ? 0 : directionX * Math.max(32, 62 - distance * 6)}px`,
-              '--why-y': `${isActive ? 0 : directionY * Math.max(10, 22 - distance * 2)}px`,
-              '--why-ry': `${isActive ? 0 : directionX * -Math.max(5, 14 - distance)}deg`,
-              '--why-rx': `${isActive ? 0 : directionY * Math.max(2, 7 - distance * .7)}deg`,
-              '--why-scale': whyActive === null ? 1 : isActive ? 1.075 : .93,
-            } as CSSProperties;
-            return <article
-              className={`why-card why-card-${index + 1} ${isActive ? 'is-repulsion-active' : ''}`}
-              key={number}
-              style={motionStyle}
-              onMouseEnter={() => setWhyActive(index)}
-              onMouseLeave={() => setWhyActive(null)}
-            >
+            return <article className={`why-card why-card-${index + 1}`} key={number}>
               <div><span>{number}</span><WhyIcon className="why-card-icon" aria-hidden="true" /></div><strong>{stat}</strong><h3>{label}</h3><p>{text}</p>
             </article>})}
         </div>
@@ -550,9 +291,9 @@ export default function Home() {
 
       <section className="section team" id="team">
         <div className="section-kicker reveal"><span>05</span> Личный состав</div>
-        <div className="section-title reveal"><h2>Вашу задачу ведут<br /><em className="shimmer-text">спецагенты</em></h2><div className="team-intro"><p>Не отделы на расстоянии, а единая оперативная группа.</p><div className="team-actions"><button className="team-toggle" type="button" onClick={() => setTeamExpanded((value) => !value)} aria-expanded={teamExpanded}>{teamExpanded ? 'Собрать агентов' : 'Раскрыть личный состав'} <span>{teamExpanded ? '−' : '+'}</span></button><a className="team-join" href="#contact">Стать частью СПЕЦАГЕНСТВА <span>↗</span></a></div></div></div>
+        <div className="section-title reveal"><h2>Вашу задачу ведут<br /><em className="shimmer-text">спецагенты</em></h2><div className="team-intro"><p>Не отделы на расстоянии, а единая оперативная группа.</p><div className="team-actions"><button className="team-toggle" type="button" onClick={toggleTeam} aria-expanded={teamExpanded}>{teamExpanded ? 'Собрать агентов' : 'Раскрыть личный состав'} <span>{teamExpanded ? '−' : '+'}</span></button><a className="team-join" href="#contact">Стать частью СПЕЦАГЕНСТВА <span>↗</span></a></div></div></div>
         <div className={`agent-grid agent-stack ${teamExpanded ? 'is-expanded' : ''}`}>
-          {agents.map((agent,index)=><article className="team-card reveal" key={agent.id} style={{ transitionDelay:`${index*90}ms` }}><span className="agent-pin" aria-hidden="true" /><div className="team-photo"><img src={agent.image} alt={agent.name} /><span>{agent.id}</span><i /></div><div className="team-card-copy"><small>{agent.role}</small><h3>{agent.name}</h3><p>{agent.description}</p></div></article>)}
+          {agents.map((agent) => <AgentCard agent={agent} key={agent.id} />)}
         </div>
       </section>
 

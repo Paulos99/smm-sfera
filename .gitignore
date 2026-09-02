@@ -11,3 +11,6 @@ public/config.js
 .wrangler
 .vinext
 .openai
+qa-screens
+scripts/create-github-repo.py
+scripts/enable-github-pages.py
