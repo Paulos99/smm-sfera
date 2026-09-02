@@ -30,7 +30,7 @@ function AgentCard({ agent }: { agent: Agent }) {
     <article className="team-card">
       <span className="agent-pin" aria-hidden="true" />
       <div className="team-photo">
-        <img src={agent.image} alt={agent.name} />
+        <img src={agent.image} alt={agent.name} loading="lazy" decoding="async" />
         <span>{agent.id}</span>
         <i />
       </div>
@@ -166,7 +166,7 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="СММ СФЕРА — на главную"><img src={asset('/assets/logo-red.png')} alt="" /><span className="brand-wordmark">СММ СФЕРА</span></a>
+        <a className="brand" href="#top" aria-label="СММ СФЕРА — на главную"><img src={asset('/assets/logo-red.webp')} alt="" fetchPriority="high" decoding="async" /><span className="brand-wordmark">СММ СФЕРА</span></a>
         <nav aria-label="Основная навигация">
           <a href="#cases">Миссии</a><a href="#services">Арсенал</a><a href="#team">Агенты</a>
         </nav>
@@ -185,7 +185,7 @@ export default function Home() {
           <div className="hero-actions"><a className="button button-primary" href="#contact">Поставить задачу <span>↗</span></a><a className="text-link" href="#cases">Смотреть досье <span>↓</span></a></div>
         </div>
         <div className="hero-visual hero-logos" aria-label="Логотип СММ СФЕРА и маркетинговые боли клиентов">
-          <div className="hero-logo-pulse"><img src={asset('/assets/logo-red.png')} alt="СММ СФЕРА" /></div>
+          <div className="hero-logo-pulse"><img src={asset('/assets/logo-red.webp')} alt="СММ СФЕРА" fetchPriority="high" decoding="async" /></div>
           {painTargets.map((pain, index) => <div className={`pain-target ${painTarget === index ? 'is-active' : ''} ${shotTarget === index ? 'is-shot' : ''}`} style={{ '--target-left': pain.left, '--target-top': pain.top } as CSSProperties} key={pain.label}><span>{pain.label}</span><i className="shot-burst" aria-hidden="true" /></div>)}
           <div className={`target-reticle ${shotTarget === painTarget ? 'is-firing' : ''}`} style={{ left: painTargets[painTarget].left, top: painTargets[painTarget].top }} aria-hidden="true"><i /><b /></div>
         </div>
@@ -230,7 +230,7 @@ export default function Home() {
               <div className="intel-radar radar" aria-label="Радар бизнес-задач">
                 <div className="radar-sweep" />
                 <div className="radar-center" />
-                {radarTargets.map(([name, left, top], index) => <span className="radar-target is-logo is-detected" style={{ left, top, animationDelay: `${index * 0.42}s` }} key={`${name}-${index}`}><img src={clientLogos[index % clientLogos.length]} alt="" /></span>)}
+                {radarTargets.map(([name, left, top], index) => <span className="radar-target is-logo is-detected" style={{ left, top, animationDelay: `${index * 0.42}s` }} key={`${name}-${index}`}><img src={clientLogos[index % clientLogos.length]} alt="" loading="lazy" decoding="async" /></span>)}
               </div>
               <div className="intel-stats">
                 <small>Оперативная статистика / 2026</small>
@@ -247,7 +247,7 @@ export default function Home() {
               </button>)}
             </div>
           </div>
-          <div className="client-logo-marquee" aria-label="Логотипы клиентов"><div className="client-logo-track">{[0, 1].map((copy) => <div className="client-logo-segment" aria-hidden="true" key={copy}>{clientLogos.map((logo, index) => <span key={`${copy}-${index}`}><img src={logo} alt="" /></span>)}</div>)}</div></div>
+          <div className="client-logo-marquee" aria-label="Логотипы клиентов"><div className="client-logo-track">{[0, 1].map((copy) => <div className="client-logo-segment" aria-hidden="true" key={copy}>{clientLogos.map((logo, index) => <span key={`${copy}-${index}`}><img src={logo} alt="" loading="lazy" decoding="async" /></span>)}</div>)}</div></div>
         </div>
       </section>
 
@@ -316,7 +316,7 @@ export default function Home() {
           <div className="contact-details">
             <p><small>Телефон штаба</small><a href="tel:+79203656133">+7 (920) 365-61-33</a></p>
             <p><small>Адрес агентства</small><span>Иваново, Шереметевский пр-т, 1</span></p>
-            <div className="contact-socials"><a className="social-vk" href="https://vk.com/smm_sfera" target="_blank" rel="noreferrer" aria-label="Написать в VK"><img src={asset('/assets/social-vk.png')} alt="" /></a><a className="social-telegram" href="https://t.me/+79203656133" target="_blank" rel="noreferrer" aria-label="Написать в Telegram"><img src={asset('/assets/social-telegram.png')} alt="" /></a></div>
+            <div className="contact-socials"><a className="social-vk" href="https://vk.com/smm_sfera" target="_blank" rel="noreferrer" aria-label="Написать в VK"><img src={asset('/assets/social-vk.webp')} alt="" loading="lazy" decoding="async" /></a><a className="social-telegram" href="https://t.me/+79203656133" target="_blank" rel="noreferrer" aria-label="Написать в Telegram"><img src={asset('/assets/social-telegram.webp')} alt="" loading="lazy" decoding="async" /></a></div>
           </div>
         </div>
       </section>
@@ -334,7 +334,7 @@ export default function Home() {
       </div>}
 
       <footer className="site-footer reveal">
-        <a className="footer-brand" href="#top"><img src={asset('/assets/logo-red.png')} alt="" /><span>СММ СФЕРА</span></a>
+        <a className="footer-brand" href="#top"><img src={asset('/assets/logo-red.webp')} alt="" loading="lazy" decoding="async" /><span>СММ СФЕРА</span></a>
         <div><span>Разделы</span><a href="#cases">Архив операций</a><a href="#services">Наш арсенал</a><a href="#operation">Протокол операции</a><a href="#why">Почему выбирают нас</a></div>
         <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79203656133">+7 (920) 365-61-33</a></div>
         <p>© 2026 СММ СФЕРА<br />ИП Соркина Радмила Вячеславовна<br />ИНН 450101448176 · ОГРНИП 310370204700173</p>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'СММ СФЕРА — спецагентство полного цикла',
     description: 'Маркетинговые операции особой важности: стратегия, контент, продвижение и аналитика.',
-    images: [{ url: `${siteUrl}/og.png`, width: 1200, height: 630, alt: 'СММ СФЕРА — маркетинговые операции особой важности' }],
+    images: [{ url: `${siteUrl}/og.jpg`, width: 1200, height: 630, alt: 'СММ СФЕРА — маркетинговые операции особой важности' }],
     locale: 'ru_RU',
     type: 'website',
   },

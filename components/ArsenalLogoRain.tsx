@@ -30,13 +30,14 @@ export default function ArsenalLogoRain() {
     let running = false;
 
     const resize = () => {
-      width = Math.max(1, card.clientWidth);
-      height = Math.max(1, card.clientHeight);
+      canvas.style.removeProperty('width');
+      canvas.style.removeProperty('height');
+      const rect = canvas.getBoundingClientRect();
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
       const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       bodies = [];
       spawned = 0;
@@ -115,7 +116,13 @@ export default function ArsenalLogoRain() {
         context.translate(body.x, body.y);
         context.rotate(body.angle);
         context.globalAlpha = 0.92;
-        context.drawImage(body.image, -body.radius, -body.radius, body.radius * 2, body.radius * 2);
+        const sourceWidth = body.image.naturalWidth || body.image.width || 1;
+        const sourceHeight = body.image.naturalHeight || body.image.height || 1;
+        const box = body.radius * 2;
+        const scale = Math.min(box / sourceWidth, box / sourceHeight);
+        const drawWidth = sourceWidth * scale;
+        const drawHeight = sourceHeight * scale;
+        context.drawImage(body.image, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
         context.restore();
       });
     };

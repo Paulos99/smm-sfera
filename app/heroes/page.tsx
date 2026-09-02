@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { asset } from '@/lib/asset';
 import './heroes.css';
 
 export default function HeroesPage() {
@@ -39,7 +40,7 @@ export default function HeroesPage() {
           <div className="radar-orbit orbit-a"><i /></div>
           <div className="radar-orbit orbit-b"><i /></div>
           <div className="radar-sweep-beam" />
-          <img src="/assets/logo-red.png" alt="СММ СФЕРА" />
+          <img src={asset('/assets/logo-red.webp')} alt="СММ СФЕРА" />
           <span className="target target-a">КОНТЕНТ <b>●</b></span>
           <span className="target target-b">ТРАФИК <b>●</b></span>
           <span className="target target-c">СТРАТЕГИЯ <b>●</b></span>
@@ -62,9 +63,9 @@ export default function HeroesPage() {
           <a className="studio-button" href="/#contact">Познакомиться с командой <b>↗</b></a>
         </div>
         <div className="studio-collage" aria-label="Креативная команда СММ СФЕРЫ">
-          <div className="studio-card card-strategy"><span>СТРАТЕГИЯ</span><img src="/assets/agent-strategy.png" alt="Агент Стратег" /></div>
-          <div className="studio-card card-creative"><span>КРЕАТИВ</span><img src="/assets/agent-creative.png" alt="Агент Креатив" /></div>
-          <div className="studio-card card-performance"><span>ТРАФИК</span><img src="/assets/agent-performance.png" alt="Агент Трафик" /></div>
+          <div className="studio-card card-strategy"><span>СТРАТЕГИЯ</span><img src={asset('/assets/agent-strategy.webp')} alt="Агент Стратег" loading="lazy" decoding="async" /></div>
+          <div className="studio-card card-creative"><span>КРЕАТИВ</span><img src={asset('/assets/agent-creative.webp')} alt="Агент Креатив" loading="lazy" decoding="async" /></div>
+          <div className="studio-card card-performance"><span>ТРАФИК</span><img src={asset('/assets/agent-performance.webp')} alt="Агент Трафик" loading="lazy" decoding="async" /></div>
           <div className="studio-note note-one">ИДЕЯ<br />+ СМЫСЛ</div>
           <div className="studio-note note-two">ОДНА<br />КОМАНДА</div>
           <div className="studio-arrow" aria-hidden="true">↗</div>
@@ -104,7 +105,7 @@ export default function HeroesPage() {
           <div className="feed-top"><span>LIVE / CONTENT SYSTEM</span><b>● REC</b></div>
           <div className="feed-screen">
             <div className="feed-card feed-yellow"><small>ПОСТ / 032</small><strong>БРЕНД<br />ГОВОРИТ</strong><i>↗</i></div>
-            <div className="feed-card feed-image"><img src="/assets/agent-hero.png" alt="Агент СММ СФЕРЫ" /><span>ГЕРОЙ БРЕНДА</span></div>
+            <div className="feed-card feed-image"><img src={asset('/assets/agent-hero.webp')} alt="Агент СММ СФЕРЫ" loading="lazy" decoding="async" /><span>ГЕРОЙ БРЕНДА</span></div>
             <div className="feed-card feed-blue"><small>ОХВАТ</small><strong>+270%</strong><span>за 90 дней</span></div>
             <div className="feed-card feed-red"><small>REELS / 09:16</small><strong>НЕ<br />ЛИСТАЙ</strong><i>▶</i></div>
           </div>
@@ -129,7 +130,7 @@ export default function HeroesPage() {
           <div className="sphere-ring sphere-one"><i>СТРАТЕГИЯ</i></div>
           <div className="sphere-ring sphere-two"><i>КРЕАТИВ</i></div>
           <div className="sphere-ring sphere-three"><i>РЕЗУЛЬТАТ</i></div>
-          <img src="/assets/logo-red.png" alt="" />
+          <img src={asset('/assets/logo-red.webp')} alt="" loading="lazy" decoding="async" />
         </div>
         <div className="orbit-footer">
           <p>Вникаем в задачу глубже обычного. Думаем смело. Работаем системно. Отвечаем за результат целиком.</p>

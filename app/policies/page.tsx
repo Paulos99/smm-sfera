@@ -28,7 +28,7 @@ export default function PoliciesPage() {
       <header className="legal-top">
         <Link href="/" className="legal-back">← На главную</Link>
         <Link className="brand legal-brand" href="/">
-          <img src={asset('/assets/logo-red.png')} alt="" />
+          <img src={asset('/assets/logo-red.webp')} alt="" />
           <span>СММ СФЕРА</span>
         </Link>
       </header>

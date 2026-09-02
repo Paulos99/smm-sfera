@@ -59,14 +59,14 @@ export const whyItems: Array<[string, string, string, string]> = [
 ];
 
 export const agents: Agent[] = [
-  { id: 'A—001', role: 'Основатель агентства', name: 'Радмила', image: asset('/assets/team/radmila.png'), description: 'Командир штаба СММ СФЕРА. 20+ лет в маркетинге, множество бизнес-стартапов и стратегическое чутьё, которое превращает идеи в работающие компании.' },
-  { id: 'A—010', role: 'Руководитель агентства', name: 'Алина', image: asset('/assets/team/alina.png'), description: 'Координирует операции, аналитику, отчётность, стратегии и воронки. 10+ лет опыта, автор образовательных проектов «СММ ШКОЛА» и «НЕЙРОСФЕРА».' },
-  { id: 'A—014', role: 'Digital-проекты и арт-дирекшн', name: 'Дмитрий', image: asset('/assets/team/dmitry.png'), description: 'Руководит крупными digital-миссиями и визуальным направлением штаба. 5+ лет в дизайне; держит под контролем проект от первого макета до запуска.' },
-  { id: 'A—007', role: 'Видеорежиссура и трафик', name: 'Анна', image: asset('/assets/team/anna.png'), description: 'Режиссирует съёмки, монтирует истории и наводит таргет точно в аудиторию. 5+ лет в маркетинге, основатель внутренней миссии «Выгодный Китай».' },
-  { id: 'A—021', role: 'Influence и продвижение', name: 'Александра', image: asset('/assets/team/alexandra.png'), description: 'Разворачивает рекламные операции в соцсетях: блогеры, посевы, UGC и коллаборации. Её партнёрская база помогает собрать эффективную воронку для любого бизнеса.' },
-  { id: 'A—028', role: 'Полевой фото- и видеоагент', name: 'Диана', image: asset('/assets/team/diana.png'), description: 'Ловит живые кадры прямо в поле, превращает события и процессы бизнеса в убедительные визуальные истории. Быстро собирает контент под любой формат и площадку.' },
-  { id: 'A—034', role: 'Мобильный продакшн', name: 'Варвара', image: asset('/assets/team/varvara.png'), description: 'Универсальный агент съёмочной группы: фото, вертикальное видео, backstage и оперативный монтаж. Находит сильный ракурс даже в самых сложных вводных.' },
-  { id: 'A—040', role: 'Яндекс.Бизнес и реклама', name: 'Татьяна', image: asset('/assets/team/tatiana.png'), description: 'Навигатор по рекламной экосистеме Яндекса с опытом 20+ лет. Усиливает карточки бизнеса, локальное присутствие и кампании так, чтобы бренд находили именно его клиенты.' },
+  { id: 'A—001', role: 'Основатель агентства', name: 'Радмила', image: asset('/assets/team/radmila.webp'), description: 'Командир штаба СММ СФЕРА. 20+ лет в маркетинге, множество бизнес-стартапов и стратегическое чутьё, которое превращает идеи в работающие компании.' },
+  { id: 'A—010', role: 'Руководитель агентства', name: 'Алина', image: asset('/assets/team/alina.webp'), description: 'Координирует операции, аналитику, отчётность, стратегии и воронки. 10+ лет опыта, автор образовательных проектов «СММ ШКОЛА» и «НЕЙРОСФЕРА».' },
+  { id: 'A—014', role: 'Digital-проекты и арт-дирекшн', name: 'Дмитрий', image: asset('/assets/team/dmitry.webp'), description: 'Руководит крупными digital-миссиями и визуальным направлением штаба. 5+ лет в дизайне; держит под контролем проект от первого макета до запуска.' },
+  { id: 'A—007', role: 'Видеорежиссура и трафик', name: 'Анна', image: asset('/assets/team/anna.webp'), description: 'Режиссирует съёмки, монтирует истории и наводит таргет точно в аудиторию. 5+ лет в маркетинге, основатель внутренней миссии «Выгодный Китай».' },
+  { id: 'A—021', role: 'Influence и продвижение', name: 'Александра', image: asset('/assets/team/alexandra.webp'), description: 'Разворачивает рекламные операции в соцсетях: блогеры, посевы, UGC и коллаборации. Её партнёрская база помогает собрать эффективную воронку для любого бизнеса.' },
+  { id: 'A—028', role: 'Полевой фото- и видеоагент', name: 'Диана', image: asset('/assets/team/diana.webp'), description: 'Ловит живые кадры прямо в поле, превращает события и процессы бизнеса в убедительные визуальные истории. Быстро собирает контент под любой формат и площадку.' },
+  { id: 'A—034', role: 'Мобильный продакшн', name: 'Варвара', image: asset('/assets/team/varvara.webp'), description: 'Универсальный агент съёмочной группы: фото, вертикальное видео, backstage и оперативный монтаж. Находит сильный ракурс даже в самых сложных вводных.' },
+  { id: 'A—040', role: 'Яндекс.Бизнес и реклама', name: 'Татьяна', image: asset('/assets/team/tatiana.webp'), description: 'Навигатор по рекламной экосистеме Яндекса с опытом 20+ лет. Усиливает карточки бизнеса, локальное присутствие и кампании так, чтобы бренд находили именно его клиенты.' },
 ];
 
 export const featuredAgents = agents.slice(0, 4);
@@ -103,14 +103,14 @@ export const operationMarkers: Array<[string, string, string]> = [
   ['95%', '50%', '05'],
 ];
 
-export const clientLogos = Array.from({ length: 13 }, (_, index) => asset(`/assets/clients/client-${String(index + 1).padStart(2, '0')}.png`));
+export const clientLogos = Array.from({ length: 13 }, (_, index) => asset(`/assets/clients/client-${String(index + 1).padStart(2, '0')}.webp`));
 
 export const arsenalSocialLogos = [
-  asset('/assets/social-yandex-business.png'),
-  asset('/assets/social-ok.png'),
-  asset('/assets/social-telegram.png'),
-  asset('/assets/social-max.png'),
-  asset('/assets/social-shorts.png'),
-  asset('/assets/social-wibes.png'),
-  asset('/assets/social-vk.png'),
+  asset('/assets/social-yandex-business.webp'),
+  asset('/assets/social-ok.webp'),
+  asset('/assets/social-telegram.webp'),
+  asset('/assets/social-max.webp'),
+  asset('/assets/social-shorts.webp'),
+  asset('/assets/social-wibes.webp'),
+  asset('/assets/social-vk.webp'),
 ];
