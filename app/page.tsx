@@ -7,6 +7,7 @@ import { Award, Bot, CalendarClock, ChartNoAxesColumnDecreasing, ChartNoAxesComb
 import Lenis from 'lenis';
 import ArsenalLogoRain from '@/components/ArsenalLogoRain';
 import { asset } from '@/lib/asset';
+import { officialContactEmail, submitLead } from '@/lib/submitLead';
 import {
   agents,
   arsenalMissions,
@@ -115,7 +116,7 @@ export default function Home() {
     });
   }
 
-  function submitBrief(event: FormEvent<HTMLFormElement>) {
+  async function submitBrief(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     if (!consent) {
@@ -129,21 +130,24 @@ export default function Home() {
     const company = String(data.get('company') || '').trim();
     const username = String(data.get('username') || '').trim();
     const message = String(data.get('message') || '').trim();
-    const body = [
-      'Заявка с сайта СММ СФЕРА',
-      `Имя: ${name}`,
-      `Телефон: ${phone}`,
-      company ? `Компания: ${company}` : '',
-      username ? `Telegram/VK: ${username}` : '',
-      message ? `Задача: ${message}` : '',
-      `Согласие на обработку ПД: да (${new Date().toISOString()})`,
-    ].filter(Boolean).join('\n');
-    const mailto = `mailto:smmsfera@mail.ru?subject=${encodeURIComponent(`Заявка с сайта СММ СФЕРА — ${name}`)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
-    setFormStatus('ok');
-    setFormMessage('Откроется почтовый клиент для отправки заявки на smmsfera@mail.ru. Если письмо не открылось — напишите на smmsfera@mail.ru или позвоните +7 (996) 026-35-09.');
-    form.reset();
-    setConsent(false);
+    if (!name || !phone) {
+      setFormStatus('error');
+      setFormMessage('Заполните имя и телефон.');
+      return;
+    }
+    setFormStatus('idle');
+    setFormMessage('');
+    const result = await submitLead({ name, phone, company, username, message });
+    const publicEmail = officialContactEmail();
+    if (result.ok) {
+      setFormStatus('ok');
+      setFormMessage('Задание принято. Координатор выйдет на связь.');
+      form.reset();
+      setConsent(false);
+      return;
+    }
+    setFormStatus('error');
+    setFormMessage(`Не удалось отправить заявку. Напишите на ${publicEmail} или позвоните +7 (996) 026-35-09.`);
   }
 
   return (
@@ -281,7 +285,7 @@ export default function Home() {
       </section>
 
       <section className="contact section" id="contact">
-        <div className="contact-intro reveal"><div className="section-kicker"><span>06</span> Связь со штабом</div><h2>Передайте<br /><em className="shimmer-text contact-shimmer">задание</em></h2><p>Опишите задачу — координатор свяжется с вами, задаст несколько точных вопросов и предложит следующий шаг.</p><div className="secure"><i>✓</i><span>Заявка уходит на smmsfera@mail.ru<br /><small>Без согласия данные не отправляем · без рекламной рассылки</small></span></div></div>
+        <div className="contact-intro reveal"><div className="section-kicker"><span>06</span> Связь со штабом</div><h2>Передайте<br /><em className="shimmer-text contact-shimmer">задание</em></h2><p>Опишите задачу — координатор свяжется с вами, задаст несколько точных вопросов и предложит следующий шаг.</p><div className="secure"><i>✓</i><span>Заявка уходит координатору на почту<br /><small>Без согласия данные не отправляем · без рекламной рассылки</small></span></div></div>
         <div className="contact-panel reveal">
           <form className="brief-form" onSubmit={submitBrief}>
             <label><span>Ваше имя *</span><input name="name" required placeholder="Как к вам обращаться?" autoComplete="name" /></label>

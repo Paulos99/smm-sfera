@@ -3,22 +3,17 @@
 Сайт маркетингового агентства **СММ СФЕРА** (версия дизайнера Димы).
 Archive: https://github.com/Paulos99/smm
 
-## Local
+## Form / leads
 
-npm install
-npm run dev
+Same as Eslavia: FormSubmit → data/lead-mail.json (to).
 
-## Publish
+- Test inbox: Pavel199975@ya.ru
+- Official footer: smmsfera@mail.ru
 
-GitHub Pages project site and smmsfera.ru domain.
-Form opens email client to the public contact address.
+First FormSubmit email needs Activate in that inbox.
+Production: set to to smmsfera@mail.ru in data/lead-mail.json.
 
 ## Contacts
 
 - Phone: +7 (996) 026-35-09
 - Email: smmsfera@mail.ru
-- Office: Ivanovo, Sheremetevsky pr-t, 1
-
-## Fonts
-
-Argent CF / Impact — license TBD in docs/legal.
