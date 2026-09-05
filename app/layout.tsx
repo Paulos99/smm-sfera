@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
-import { BASE_PATH } from '@/lib/asset';
 
 const siteUrl = 'https://paulos99.github.io/smm-sfera';
 
@@ -27,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang="ru" data-theme="light">
       <body>
-        <Script src={`${BASE_PATH}/config.js`} strategy="beforeInteractive" />
         {children}
       </body>
     </html>

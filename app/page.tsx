@@ -115,7 +115,7 @@ export default function Home() {
     });
   }
 
-  async function submitBrief(event: FormEvent<HTMLFormElement>) {
+  function submitBrief(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     if (!consent) {
@@ -129,15 +129,7 @@ export default function Home() {
     const company = String(data.get('company') || '').trim();
     const username = String(data.get('username') || '').trim();
     const message = String(data.get('message') || '').trim();
-    const telegram = (window as Window & { TELEGRAM_CONFIG?: { BOT_TOKEN?: string; CHAT_ID?: string } }).TELEGRAM_CONFIG;
-    const token = telegram?.BOT_TOKEN?.trim();
-    const chatId = telegram?.CHAT_ID?.trim();
-    if (!token || !chatId || token === 'YOUR_BOT_TOKEN' || chatId === 'YOUR_CHAT_ID') {
-      setFormStatus('error');
-      setFormMessage('Форма пока не подключена к Telegram. Напишите на smmsfera2026@mail.ru или по телефону +7 (920) 365-61-33.');
-      return;
-    }
-    const text = [
+    const body = [
       'Заявка с сайта СММ СФЕРА',
       `Имя: ${name}`,
       `Телефон: ${phone}`,
@@ -146,21 +138,12 @@ export default function Home() {
       message ? `Задача: ${message}` : '',
       `Согласие на обработку ПД: да (${new Date().toISOString()})`,
     ].filter(Boolean).join('\n');
-    try {
-      const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text }),
-      });
-      if (!response.ok) throw new Error('telegram');
-      setFormStatus('ok');
-      setFormMessage('Задание принято. Координатор выйдет на связь.');
-      form.reset();
-      setConsent(false);
-    } catch {
-      setFormStatus('error');
-      setFormMessage('Не удалось отправить заявку. Напишите на smmsfera2026@mail.ru.');
-    }
+    const mailto = `mailto:smmsfera@mail.ru?subject=${encodeURIComponent(`Заявка с сайта СММ СФЕРА — ${name}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+    setFormStatus('ok');
+    setFormMessage('Откроется почтовый клиент для отправки заявки на smmsfera@mail.ru. Если письмо не открылось — напишите на smmsfera@mail.ru или позвоните +7 (996) 026-35-09.');
+    form.reset();
+    setConsent(false);
   }
 
   return (
@@ -291,14 +274,14 @@ export default function Home() {
 
       <section className="section team" id="team">
         <div className="section-kicker reveal"><span>05</span> Личный состав</div>
-        <div className="section-title reveal"><h2>Вашу задачу ведут<br /><em className="shimmer-text">спецагенты</em></h2><div className="team-intro"><p>Не отделы на расстоянии, а единая оперативная группа.</p><div className="team-actions"><button className="team-toggle" type="button" onClick={toggleTeam} aria-expanded={teamExpanded}>{teamExpanded ? 'Собрать агентов' : 'Раскрыть личный состав'} <span>{teamExpanded ? '−' : '+'}</span></button><a className="team-join" href="#contact">Стать частью СПЕЦАГЕНСТВА <span>↗</span></a></div></div></div>
+        <div className="section-title reveal"><h2>Вашу задачу ведут<br /><em className="shimmer-text">спецагенты</em></h2><div className="team-intro"><p>Не отделы на расстоянии, а единая оперативная группа.</p><div className="team-actions"><button className="team-toggle" type="button" onClick={toggleTeam} aria-expanded={teamExpanded}>{teamExpanded ? 'Собрать агентов' : 'Раскрыть личный состав'} <span>{teamExpanded ? '−' : '+'}</span></button></div></div></div>
         <div className={`agent-grid agent-stack ${teamExpanded ? 'is-expanded' : ''}`}>
           {agents.map((agent) => <AgentCard agent={agent} key={agent.id} />)}
         </div>
       </section>
 
       <section className="contact section" id="contact">
-        <div className="contact-intro reveal"><div className="section-kicker"><span>06</span> Связь со штабом</div><h2>Передайте<br /><em className="shimmer-text contact-shimmer">задание</em></h2><p>Опишите задачу — координатор свяжется с вами, задаст несколько точных вопросов и предложит следующий шаг.</p><div className="secure"><i>✓</i><span>Заявка уходит координатору<br /><small>Без согласия данные не отправляем</small></span></div></div>
+        <div className="contact-intro reveal"><div className="section-kicker"><span>06</span> Связь со штабом</div><h2>Передайте<br /><em className="shimmer-text contact-shimmer">задание</em></h2><p>Опишите задачу — координатор свяжется с вами, задаст несколько точных вопросов и предложит следующий шаг.</p><div className="secure"><i>✓</i><span>Заявка уходит на smmsfera@mail.ru<br /><small>Без согласия данные не отправляем · без рекламной рассылки</small></span></div></div>
         <div className="contact-panel reveal">
           <form className="brief-form" onSubmit={submitBrief}>
             <label><span>Ваше имя *</span><input name="name" required placeholder="Как к вам обращаться?" autoComplete="name" /></label>
@@ -308,15 +291,16 @@ export default function Home() {
             <label className="wide"><span>Кратко о задаче</span><textarea name="message" rows={4} placeholder="Цель, сроки, вводные — всё, что уже известно" /></label>
             <label className="wide consent-check">
               <input type="checkbox" name="consent" checked={consent} onChange={(event) => setConsent(event.target.checked)} />
-              <span>Даю согласие на обработку персональных данных. Ознакомлен(а) с <Link href="/policies#privacy">Политикой</Link> и <Link href="/policies#consent">Согласием</Link>.</span>
+              <span>Даю согласие на обработку персональных данных для ответа на заявку и оказания услуг. Рекламную рассылку не запрашиваю. Ознакомлен(а) с <Link href="/policies#privacy">Политикой</Link> и <Link href="/policies#consent">Согласием</Link>.</span>
             </label>
             <div className="form-footer"><p>Кнопка активна только после отметки согласия.</p><button className="button button-primary" type="submit" disabled={!consent}>Передать в штаб <span>↗</span></button></div>
             {formStatus !== 'idle' && <div className={formStatus === 'ok' ? 'form-success' : 'form-error'} role="status">{formMessage}</div>}
           </form>
           <div className="contact-details">
-            <p><small>Телефон штаба</small><a href="tel:+79203656133">+7 (920) 365-61-33</a></p>
-            <p><small>Адрес агентства</small><span>Иваново, Шереметевский пр-т, 1</span></p>
-            <div className="contact-socials"><a className="social-vk" href="https://vk.com/smm_sfera" target="_blank" rel="noreferrer" aria-label="Написать в VK"><img src={asset('/assets/social-vk.webp')} alt="" loading="lazy" decoding="async" /></a><a className="social-telegram" href="https://t.me/+79203656133" target="_blank" rel="noreferrer" aria-label="Написать в Telegram"><img src={asset('/assets/social-telegram.webp')} alt="" loading="lazy" decoding="async" /></a></div>
+            <p><small>Телефон штаба</small><a href="tel:+79960263509">+7 (996) 026-35-09</a></p>
+            <p><small>Почта</small><a href="mailto:smmsfera@mail.ru">smmsfera@mail.ru</a></p>
+            <p><small>Офис</small><span>Иваново, Шереметевский пр-т, 1</span></p>
+            <div className="contact-socials"><a className="social-vk" href="https://vk.com/smm_sfera" target="_blank" rel="noreferrer" aria-label="Написать в VK"><img src={asset('/assets/social-vk.webp')} alt="" loading="lazy" decoding="async" /></a><a className="social-telegram" href="https://t.me/+79960263509" target="_blank" rel="noreferrer" aria-label="Написать в Telegram"><img src={asset('/assets/social-telegram.webp')} alt="" loading="lazy" decoding="async" /></a></div>
           </div>
         </div>
       </section>
@@ -336,7 +320,7 @@ export default function Home() {
       <footer className="site-footer reveal">
         <a className="footer-brand" href="#top"><img src={asset('/assets/logo-red.webp')} alt="" loading="lazy" decoding="async" /><span>СММ СФЕРА</span></a>
         <div><span>Разделы</span><a href="#cases">Архив операций</a><a href="#services">Наш арсенал</a><a href="#operation">Протокол операции</a><a href="#why">Почему выбирают нас</a></div>
-        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79203656133">+7 (920) 365-61-33</a></div>
+        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79960263509">+7 (996) 026-35-09</a><a href="mailto:smmsfera@mail.ru">smmsfera@mail.ru</a></div>
         <p>© 2026 СММ СФЕРА<br />ИП Соркина Радмила Вячеславовна<br />ИНН 450101448176 · ОГРНИП 310370204700173</p>
       </footer>
     </main>

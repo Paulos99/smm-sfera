@@ -1,29 +1,24 @@
 # СММ СФЕРА
 
 Сайт маркетингового агентства **СММ СФЕРА** (версия дизайнера Димы).
+Archive: https://github.com/Paulos99/smm
 
-Архив предыдущего HTML-лендинга: [github.com/Paulos99/smm](https://github.com/Paulos99/smm)
+## Local
 
-## Локально
-
-```bash
 npm install
-copy public\config.example.js public\config.js
 npm run dev
-```
 
-Открыть [http://localhost:3000](http://localhost:3000)
+## Publish
 
-Для проверки GitHub Pages локально:
+GitHub Pages project site and smmsfera.ru domain.
+Form opens email client to the public contact address.
 
-```bash
-set NEXT_PUBLIC_BASE_PATH=/smm-sfera
-npm run build
-npx serve out
-```
+## Contacts
 
-## Публикация
+- Phone: +7 (996) 026-35-09
+- Email: smmsfera@mail.ru
+- Office: Ivanovo, Sheremetevsky pr-t, 1
 
-GitHub Pages: **https://paulos99.github.io/smm-sfera/**
+## Fonts
 
-Форма заявок отправляет сообщение в Telegram. Скопируйте `public/config.example.js` в `public/config.js` (файл в git не попадает) и укажите `BOT_TOKEN` и `CHAT_ID`.
+Argent CF / Impact — license TBD in docs/legal.
