@@ -7,11 +7,11 @@ Archive: https://github.com/Paulos99/smm
 
 Same as Eslavia: FormSubmit → data/lead-mail.json (to).
 
-- Test inbox: Pavel199975@ya.ru
+- Inbox: smmsfera@mail.ru
 - Official footer: smmsfera@mail.ru
 
 First FormSubmit email needs Activate in that inbox.
-Production: set to to smmsfera@mail.ru in data/lead-mail.json.
+
 
 ## Contacts
 
