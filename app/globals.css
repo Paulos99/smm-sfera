@@ -3891,8 +3891,10 @@ html, body { overflow-x:clip; }
   }
   .signals-heading { height:auto !important; min-height:0 !important; overflow:visible !important; }
   .signal-card>strong { font-size:10.5px; -webkit-line-clamp:4; }
-  .pain-target { display:none; }
-  .target-reticle { transform:scale(.7); }
+  /* Keep sequential aim/kill cycle on mobile (same as desktop) */
+  .pain-target { display:block; }
+  .hero-visual.hero-logos { overflow:visible; min-height:240px !important; }
+  .target-reticle { transform:translate(-50%,-50%) scale(.7); }
 }
 
 /* Revision 34 — smaller signal squares, caps, top-left copy */
@@ -4009,53 +4011,4 @@ html, body { overflow-x:clip; }
     height:390px !important;
   }
   .agent-stack.is-expanded .team-photo { min-height:0 !important; }
-}
-
-
-/* --- Mobile/touch: hero pain targets always visible (not cycle/hover-only) --- */
-@media (max-width: 900px), (hover: none), (pointer: coarse) {
-  .hero {
-    overflow: visible;
-  }
-  .hero-visual.hero-logos {
-    overflow: visible;
-    min-height: max(260px, 42vw);
-  }
-  .pain-target {
-    left: var(--target-left) !important;
-    top: var(--target-top) !important;
-    opacity: 0.88 !important;
-    filter: none !important;
-    transform: translate(-50%, -50%) scale(1) !important;
-    animation: none !important;
-  }
-  .pain-target.is-active {
-    opacity: 1 !important;
-    z-index: 10;
-    border-color: color-mix(in srgb, var(--red) 72%, var(--line));
-    box-shadow:
-      0 13px 30px rgba(0, 0, 0, 0.22),
-      0 0 0 2px color-mix(in srgb, var(--red) 35%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.13);
-  }
-  .pain-target.is-active.is-shot {
-    animation: none !important;
-    opacity: 1 !important;
-  }
-  .target-reticle {
-    opacity: 0.7;
-    transition: left 0.8s ease, top 0.8s ease, transform 0.22s ease, filter 0.22s ease;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pain-target {
-    left: var(--target-left) !important;
-    top: var(--target-top) !important;
-    opacity: 0.9 !important;
-    transform: translate(-50%, -50%) scale(1) !important;
-    animation: none !important;
-    filter: none !important;
-  }
-  .target-reticle { display: none; }
 }
