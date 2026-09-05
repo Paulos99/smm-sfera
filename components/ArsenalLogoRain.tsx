@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { arsenalSocialLogos } from '@/data/home';
+import { isWeakDevice } from '@/lib/weakDevice';
 
 type Body = { x: number; y: number; vx: number; vy: number; radius: number; angle: number; spin: number; image: HTMLImageElement };
 
@@ -14,6 +15,7 @@ export default function ArsenalLogoRain() {
     const context = canvas?.getContext('2d');
     if (!canvas || !card || !context) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (isWeakDevice()) return;
 
     const images = arsenalSocialLogos.map((source) => {
       const image = new Image();

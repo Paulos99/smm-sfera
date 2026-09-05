@@ -8,6 +8,7 @@ import Lenis from 'lenis';
 import ArsenalLogoRain from '@/components/ArsenalLogoRain';
 import { asset } from '@/lib/asset';
 import { officialContactEmail, submitLead } from '@/lib/submitLead';
+import { isWeakDevice } from '@/lib/weakDevice';
 import {
   agents,
   arsenalMissions,
@@ -64,7 +65,7 @@ export default function Home() {
     document.addEventListener('visibilitychange', onVisibility);
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(pointer: fine)');
-    const lenis = prefersReducedMotion.matches || !finePointer.matches ? null : new Lenis({
+    const lenis = prefersReducedMotion.matches || !finePointer.matches || isWeakDevice() ? null : new Lenis({
       autoRaf: true,
       lerp: 0.14,
       wheelMultiplier: 0.88,
@@ -164,9 +165,9 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
-        <div className="hero-backword" aria-hidden="true"><div className="hero-backword-track"><div className="hero-backword-segment"><span>ДИДЖИТАЛ АГЕНСТВО</span><span>ДИДЖИТАЛ АГЕНСТВО</span></div><div className="hero-backword-segment"><span>ДИДЖИТАЛ АГЕНСТВО</span><span>ДИДЖИТАЛ АГЕНСТВО</span></div></div></div>
+        <div className="hero-backword" aria-hidden="true"><div className="hero-backword-track"><div className="hero-backword-segment"><span>ДИДЖИТАЛ АГЕНТСТВО</span><span>ДИДЖИТАЛ АГЕНТСТВО</span></div><div className="hero-backword-segment"><span>ДИДЖИТАЛ АГЕНТСТВО</span><span>ДИДЖИТАЛ АГЕНТСТВО</span></div></div></div>
         <div className="hero-copy">
-          <div className="eyebrow hero-badge"><span>Диджитал агенство «СММ СФЕРА»</span><b>Иваново • 24/7</b></div>
+          <div className="eyebrow hero-badge"><span>Диджитал агентство «СММ СФЕРА»</span><b>Иваново • 24/7</b></div>
           <h1>Маркетинговые<br />операции <em className="hero-special shimmer-text">особой</em><br />важности</h1>
           <p>Спецагенты по продвижению берут на себя весь цикл: стратегия, контент, трафик и отчётность. Работаем тихо. Результаты говорят громко.</p>
           <div className="hero-actions"><a className="button button-primary" href="#contact">Поставить задачу <span>↗</span></a><a className="text-link" href="#cases">Смотреть досье <span>↓</span></a></div>
