@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 
-// Apex custom domain https://smmsfera.ru is served at site root.
-const basePath = '';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/smm-sfera';
 
 const nextConfig: NextConfig = {
   output: 'export',

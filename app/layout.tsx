@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-const siteUrl = 'https://smmsfera.ru';
+const siteUrl = 'https://paulos99.github.io/smm-sfera';
 
 const title = 'СММ СФЕРА — SMM-агентство в Иваново | стратегия, контент, трафик';
 const description =

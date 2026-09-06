@@ -1,5 +1,4 @@
-// Apex custom domain https://smmsfera.ru — assets from site root.
-export const BASE_PATH = '';
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '/smm-sfera';
 
 export function asset(path: string) {
   const normalized = path.startsWith('/') ? path : `/${path}`;
