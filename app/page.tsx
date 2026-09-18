@@ -142,13 +142,13 @@ export default function Home() {
     const publicEmail = officialContactEmail();
     if (result.ok) {
       setFormStatus('ok');
-      setFormMessage('Задание принято. Координатор выйдет на связь.');
+      setFormMessage(result.error || 'Задание принято. Координатор выйдет на связь.');
       form.reset();
       setConsent(false);
       return;
     }
     setFormStatus('error');
-    setFormMessage(`Не удалось отправить заявку. Напишите на ${publicEmail} или позвоните +7 (996) 026-35-09.`);
+    setFormMessage(result.error || `Не удалось отправить заявку. Напишите на ${publicEmail} или позвоните +7 (996) 026-35-09.`);
   }
 
   return (
