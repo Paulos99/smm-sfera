@@ -5,7 +5,7 @@ export function leadInbox(): string {
 }
 
 export function officialContactEmail(): string {
-  return String(leadMail.official || 'smmsfera@mail.ru').trim();
+  return String(leadMail.official || 'smm.sfera@mail.ru').trim();
 }
 
 function formatLeadEmailFields(payload: {

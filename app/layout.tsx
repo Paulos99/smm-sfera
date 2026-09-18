@@ -51,7 +51,7 @@ const jsonLd = {
   url: `${siteUrl}/`,
   image: `${siteUrl}/og.jpg`,
   telephone: '+79960263509',
-  email: 'smmsfera@mail.ru',
+  email: 'smm.sfera@mail.ru',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Шереметевский пр-т, 1',

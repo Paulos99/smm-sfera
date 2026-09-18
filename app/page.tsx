@@ -303,7 +303,7 @@ export default function Home() {
           </form>
           <div className="contact-details">
             <p><small>Телефон штаба</small><a href="tel:+79960263509">+7 (996) 026-35-09</a></p>
-            <p><small>Почта</small><a href="mailto:smmsfera@mail.ru">smmsfera@mail.ru</a></p>
+            <p><small>Почта</small><a href="mailto:smm.sfera@mail.ru">smm.sfera@mail.ru</a></p>
             <p><small>Офис</small><span>Иваново, Шереметевский пр-т, 1</span></p>
             <div className="contact-socials"><a className="social-vk" href="https://vk.com/smm_sfera" target="_blank" rel="noreferrer" aria-label="Написать в VK"><img src={asset('/assets/social-vk.webp')} alt="" loading="lazy" decoding="async" /></a><a className="social-telegram" href="https://t.me/+79960263509" target="_blank" rel="noreferrer" aria-label="Написать в Telegram"><img src={asset('/assets/social-telegram.webp')} alt="" loading="lazy" decoding="async" /></a></div>
           </div>
@@ -325,7 +325,7 @@ export default function Home() {
       <footer className="site-footer reveal">
         <a className="footer-brand" href="#top"><img src={asset('/assets/logo-red.webp')} alt="" loading="lazy" decoding="async" /><span>СММ СФЕРА</span></a>
         <div><span>Разделы</span><a href="#cases">Архив операций</a><a href="#services">Наш арсенал</a><a href="#operation">Протокол операции</a><a href="#why">Почему выбирают нас</a></div>
-        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79960263509">+7 (996) 026-35-09</a><a href="mailto:smmsfera@mail.ru">smmsfera@mail.ru</a></div>
+        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79960263509">+7 (996) 026-35-09</a><a href="mailto:smm.sfera@mail.ru">smm.sfera@mail.ru</a></div>
         <p>© 2026 СММ СФЕРА<br />ИП Соркина Радмила Вячеславовна<br />ИНН 450101448176 · ОГРНИП 310370204700173</p>
       </footer>
     </main>

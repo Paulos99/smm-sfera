@@ -7,8 +7,8 @@ Archive: https://github.com/Paulos99/smm
 
 Same as Eslavia: FormSubmit → data/lead-mail.json (to).
 
-- Inbox: smmsfera@mail.ru
-- Official footer: smmsfera@mail.ru
+- Inbox: smm.sfera@mail.ru
+- Official footer: smm.sfera@mail.ru
 
 First FormSubmit email needs Activate in that inbox.
 
@@ -16,4 +16,4 @@ First FormSubmit email needs Activate in that inbox.
 ## Contacts
 
 - Phone: +7 (996) 026-35-09
-- Email: smmsfera@mail.ru
+- Email: smm.sfera@mail.ru
