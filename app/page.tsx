@@ -142,7 +142,7 @@ export default function Home() {
     const publicEmail = officialContactEmail();
     if (result.ok) {
       setFormStatus('ok');
-      setFormMessage(result.error || 'Задание принято. Координатор выйдет на связь.');
+      setFormMessage('Задание принято. Координатор выйдет на связь.');
       form.reset();
       setConsent(false);
       return;

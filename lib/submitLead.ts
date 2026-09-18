@@ -68,16 +68,14 @@ export async function submitLead(payload: {
     if (data.success === true || data.success === 'true') return { ok: true };
     const message = String(data.message || '').toLowerCase();
     if (message.includes('activation')) {
-      return {
-        ok: true,
-        error: 'На почту штаба ушло письмо Activate от FormSubmit — откройте smm.sfera@mail.ru и подтвердите форму.',
-      };
+      // Treat first-time FormSubmit activation as success for the visitor.
+      return { ok: true };
     }
     if (res.status === 429 || message.includes('rate limit')) {
       return { ok: false, error: 'Слишком много попыток. Подождите 10–15 минут и отправьте ещё раз.' };
     }
     if (!res.ok) {
-      return { ok: false, error: 'Не удалось отправить заявку. Проверьте Activate на smm.sfera@mail.ru.' };
+      return { ok: false, error: 'Не удалось отправить заявку' };
     }
     return { ok: false, error: 'Не удалось отправить заявку' };
   } catch {
