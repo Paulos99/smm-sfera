@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import YandexMetrika from '@/components/YandexMetrika';
 
 const siteUrl = 'https://smmsfera.ru';
 
@@ -73,6 +74,7 @@ export default function RootLayout({
   return (
     <html lang="ru" data-theme="light">
       <body>
+        <YandexMetrika />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
