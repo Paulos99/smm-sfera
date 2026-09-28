@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import privacy from '@/data/privacy.json';
 import consent from '@/data/consent.json';
 import { asset } from '@/lib/asset';
+import { CookieSettingsButton } from '@/components/CookieConsent';
 
 export const metadata: Metadata = {
   title: 'Политики — СММ СФЕРА',
@@ -16,7 +17,8 @@ function Paragraphs({ lines }: { lines: string[] }) {
       {lines.map((line, index) => {
         const isHeading = /^(Термины|Приложение|Согласие|Политика обработки|Оператор:|\d+(\.\d+)*\.?\s)/.test(line) && line.length < 180;
         const Tag = index === 0 || isHeading ? 'h3' : 'p';
-        return <Tag key={`${index}-${line.slice(0, 24)}`}>{line}</Tag>;
+        const id = isHeading && /^\d+\.\s.*cookie/i.test(line) ? 'cookies' : undefined;
+        return <Tag key={`${index}-${line.slice(0, 24)}`} id={id}>{line}</Tag>;
       })}
     </>
   );
@@ -43,6 +45,8 @@ export default function PoliciesPage() {
         <nav className="legal-toc" aria-label="Содержание документов">
           <a href="#privacy">Политика обработки персональных данных</a>
           <a href="#consent">Согласие на обработку персональных данных</a>
+          <a href="#cookies">Файлы cookie</a>
+          <CookieSettingsButton className="legal-toc-button" />
         </nav>
 
         <article id="privacy" className="legal-doc">

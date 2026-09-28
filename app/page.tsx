@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Award, Bot, CalendarClock, ChartNoAxesColumnDecreasing, ChartNoAxesCombined, Clapperboard, GraduationCap, Handshake, Megaphone, Route, Share2, ShieldAlert, ShoppingCart, Smartphone, Sparkles, Target, TrendingUp, UsersRound, Video, type LucideIcon } from 'lucide-react';
 import Lenis from 'lenis';
 import ArsenalLogoRain from '@/components/ArsenalLogoRain';
+import { CookieSettingsButton } from '@/components/CookieConsent';
 import { asset } from '@/lib/asset';
 import { officialContactEmail, submitLead } from '@/lib/submitLead';
 import { isWeakDevice } from '@/lib/weakDevice';
@@ -325,7 +326,7 @@ export default function Home() {
       <footer className="site-footer reveal">
         <a className="footer-brand" href="#top"><img src={asset('/assets/logo-red.webp')} alt="" loading="lazy" decoding="async" /><span>СММ СФЕРА</span></a>
         <div><span>Разделы</span><a href="#cases">Архив операций</a><a href="#services">Наш арсенал</a><a href="#operation">Протокол операции</a><a href="#why">Почему выбирают нас</a></div>
-        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><a href="tel:+79960263509">+7 (996) 026-35-09</a><a href="mailto:smm.sfera@mail.ru">smm.sfera@mail.ru</a></div>
+        <div><span>Агентство</span><a href="#team">Спецагенты</a><a href="#contact">Передать задание</a><Link href="/policies">Политики</Link><CookieSettingsButton /><a href="tel:+79960263509">+7 (996) 026-35-09</a><a href="mailto:smm.sfera@mail.ru">smm.sfera@mail.ru</a></div>
         <p>© 2026 СММ СФЕРА<br />ИП Соркина Радмила Вячеславовна<br />ИНН 450101448176 · ОГРНИП 310370204700173</p>
       </footer>
     </main>

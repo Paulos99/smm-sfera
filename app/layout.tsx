@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import YandexMetrika from '@/components/YandexMetrika';
+import CookieConsent from '@/components/CookieConsent';
 
 const siteUrl = 'https://smmsfera.ru';
 
@@ -96,6 +97,7 @@ export default function RootLayout({
           </div>
         </noscript>
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
