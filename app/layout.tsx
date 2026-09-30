@@ -5,15 +5,8 @@ import CookieConsent from '@/components/CookieConsent';
 
 const siteUrl = 'https://smmsfera.ru';
 
-const title = 'СММ СФЕРА — SMM-агентство в Иваново | стратегия, контент, трафик';
-const description =
-  'SMM-агентство полного цикла в Иваново: стратегия, контент, продвижение и аналитика. Спецагенты по маркетинговым операциям — от брифа до отчётности.';
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
-  description,
-  alternates: { canonical: '/' },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -21,28 +14,6 @@ export const metadata: Metadata = {
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
-  },
-  openGraph: {
-    title,
-    description,
-    url: `${siteUrl}/`,
-    siteName: 'СММ СФЕРА',
-    images: [
-      {
-        url: `${siteUrl}/og.jpg`,
-        width: 1200,
-        height: 630,
-        alt: 'СММ СФЕРА — маркетинговые операции особой важности',
-      },
-    ],
-    locale: 'ru_RU',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description,
-    images: [`${siteUrl}/og.jpg`],
   },
 };
 
@@ -52,6 +23,7 @@ const jsonLd = {
   name: 'СММ СФЕРА',
   url: `${siteUrl}/`,
   image: `${siteUrl}/og.jpg`,
+  logo: `${siteUrl}/assets/logo-red.webp`,
   telephone: '+79960263509',
   email: 'smm.sfera@mail.ru',
   address: {
@@ -61,10 +33,17 @@ const jsonLd = {
     addressRegion: 'Ивановская область',
     addressCountry: 'RU',
   },
-  areaServed: {
-    '@type': 'Country',
-    name: 'Russia',
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 56.9973571,
+    longitude: 40.9808854,
   },
+  areaServed: [
+    { '@type': 'City', name: 'Иваново' },
+    { '@type': 'AdministrativeArea', name: 'Ивановская область' },
+    { '@type': 'Country', name: 'Russia' },
+  ],
+  sameAs: ['https://vk.com/smm_sfera', 'https://t.me/+79960263509'],
 };
 
 export default function RootLayout({
