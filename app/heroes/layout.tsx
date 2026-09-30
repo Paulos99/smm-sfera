@@ -4,6 +4,8 @@ export const metadata: Metadata = {
   title: 'Hero-концепты — черновик | СММ СФЕРА',
   description: 'Внутренний черновик hero-концептов. Страница не для индексации.',
   robots: { index: false, follow: false },
+  // Не наследовать canonical главной с root layout
+  alternates: { canonical: null },
 };
 
 export default function HeroesLayout({

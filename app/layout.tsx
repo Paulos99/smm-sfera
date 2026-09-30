@@ -5,8 +5,15 @@ import CookieConsent from '@/components/CookieConsent';
 
 const siteUrl = 'https://smmsfera.ru';
 
+const title = 'СММ в Иваново — ведение соцсетей под ключ | SMM-агентство «СММ СФЕРА»';
+const description =
+  'Ведение соцсетей в Иваново под ключ: ВКонтакте, Telegram, контент-план, съёмка, таргет и отчёты. SMM-агентство «СММ СФЕРА». Цены и заявка.';
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  title,
+  description,
+  alternates: { canonical: '/' },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -14,6 +21,28 @@ export const metadata: Metadata = {
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  openGraph: {
+    title,
+    description,
+    url: `${siteUrl}/`,
+    siteName: 'СММ СФЕРА',
+    images: [
+      {
+        url: `${siteUrl}/og.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'SMM-агентство «СММ СФЕРА» — ведение соцсетей в Иваново',
+      },
+    ],
+    locale: 'ru_RU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [`${siteUrl}/og.jpg`],
   },
 };
 
