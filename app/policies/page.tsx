@@ -8,7 +8,8 @@ import { CookieSettingsButton } from '@/components/CookieConsent';
 export const metadata: Metadata = {
   title: 'Политики — СММ СФЕРА',
   description: 'Политика обработки персональных данных и согласие на обработку персональных данных СММ СФЕРА.',
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
+  alternates: { canonical: '/policies/' },
 };
 
 function Paragraphs({ lines }: { lines: string[] }) {
